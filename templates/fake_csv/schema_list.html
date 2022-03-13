@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Schema{% endblock %}
+
+{% block body %}
+    <div class="body-schema-list">
+        {% if csvschema_list %}
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Modified</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for schema in csvschema_list %}
+                    <tr>
+                        <th scope="row">{{ schema.id }}</th>
+                        <td>
+                            <a href="{% url 'schema-data-sets' schema.id %}">{{ schema.name }}</a>
+                        </td>
+                        <td>{{ schema.modified_at|date }}</td>
+                        <td>
+                            <a class="btn btn-outline-warning" href="{% url 'create-schema-columns' schema.id %}">Set
+                                Columns</a>
+                            <a class="btn btn-outline-primary" href="{% url 'update-schema' schema.id %}">Update</a>
+                            <a class="btn btn-outline-danger" href="{% url 'delete-schema' schema.id %}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary btn-resize" href="{% url 'create-schema' %}">Create Schema</a>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-model-utils = "*"
+django-extensions = "*"
+ipython = "*"
+django-allauth = "*"
+celery = "*"
+redis = "*"
+gevent = "*"
+django-crispy-forms = "*"
+pandas = "*"
+faker = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

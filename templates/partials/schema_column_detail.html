@@ -1,0 +1,25 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <table class="table table-borderless">
+        <thead>
+        <tr>
+            <th scope="col">Column Name</th>
+            <th scope="col">Type</th>
+            <th scope="col"></th>
+            <th scope="col">Order</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ column.name }}</td>
+            <td>{{ column.type }}</td>
+            <td></td>
+            <td>{{ column.order }}</td>
+            <td>
+                <button class="btn btn-primary" hx-get="{% url 'schema-columns-update' column.pk %}">update</button>
+                <button class="btn btn-danger" hx-post="{% url 'schema-columns-delete' column.pk %}">delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

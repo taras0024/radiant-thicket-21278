@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Set Schema Columns{% endblock %}
+
+{% block body %}
+    <div class="schema-columns-form">
+        <h1>Schema columns: {{ schema.name }}</h1>
+        <div>
+            {% for column in columns %}
+                {% include "partials/schema_column_detail.html" %}
+            {% endfor %}
+        </div>
+        <div id="schemaColumnsForms"></div>
+        <button class="btn btn-outline-success btn-resize" hx-get="{% url 'schema-columns-form' %}" hx-swap="beforeend"
+                hx-target="#schemaColumnsForms">Add Column
+        </button>
+    </div>
+{% endblock %}

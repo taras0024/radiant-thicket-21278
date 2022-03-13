@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Schema{% endblock %}
+
+{% block body %}
+    <div class="dj-form">
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            {{ form }}
+            <input class="btn btn-danger" type="submit" value="Confirm">
+        </form>
+    </div>
+{% endblock %}

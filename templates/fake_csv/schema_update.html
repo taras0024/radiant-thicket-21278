@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Update Schema{% endblock %}
+
+{% block body %}
+    <div class="schema-create-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-primary btn-resize" type="submit" value="Update">
+        </form>
+    </div>
+{% endblock %}

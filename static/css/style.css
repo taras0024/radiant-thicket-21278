@@ -1,0 +1,86 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 70px;
+    background: #eeecec;
+    width: 100%;
+}
+
+.navbar-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-left: 20px !important;
+}
+
+.navbar-right {
+    display: flex;
+    text-align: right;
+    margin-right: 20px !important;
+}
+
+.logo {
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Krona One', sans-serif;
+}
+
+.footer {
+    width: 100%;
+    height: 70px;
+    background: #eeecec;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: auto;
+}
+
+.footer-container {
+    width: 60%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.footer-container-box {
+    height: 30px;
+    width: 30%;
+}
+
+.btn-resize {
+    margin-top: 30px;
+    width: 200px;
+}
+
+.schema-create-form {
+    text-align: center;
+    width: 400px;
+    margin: 50px auto;
+}
+
+.dj-form {
+    text-align: center;
+    width: 400px;
+    margin: 50px auto;
+}
+
+.schema-columns-form {
+    text-align: center;
+    margin: 50px auto;
+}
+
+.schema-create-form-elem {
+    margin-top: 15px;
+}
+
+.body-schema-list {
+    margin: 30px 30px 30px 30px;
+}
