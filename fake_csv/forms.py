@@ -29,8 +29,7 @@ class SchemaColumnsForm(forms.ModelForm):
             if obj:
                 if not self.instance.id and cleaned_data['order'] != obj.order + 1:
                     raise ValidationError('Wrong ordering')
-                if self.instance.id and cleaned_data['order'] != obj.order + 1 and cleaned_data[
-                    'order'] != self.instance.order:
+                if self.instance.id and cleaned_data['order'] != obj.order + 1 and cleaned_data['order'] != self.instance.order:
                     raise ValidationError('Wrong ordering')
             else:
                 if cleaned_data['order'] != 0:

@@ -15,6 +15,11 @@ gevent = "*"
 django-crispy-forms = "*"
 pandas = "*"
 faker = "*"
+gunicorn = "*"
+whitenoise = "*"
+dj-database-url = "*"
+psycopg2 = "*"
+django-heroku = "*"
 
 [dev-packages]
 

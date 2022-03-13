@@ -26,15 +26,6 @@ def generate_csv_file(rows, schema_id, csv_id):
         'COMPANY': fake.company,
         'JOB_ROLE': fake.job
     }
-    sep = {
-        'SEMICOLON': ';',
-        'COMMA': ',',
-    }
-    quotechar = {
-        'QUOTE': "'",
-        'DOUBLE_QUOTE': '"',
-    }
-
     schema = CSVSchema.objects.get(pk=schema_id)
     columns = SchemaColumns.objects.filter(schema=schema).order_by('order').values()
     csv_obj = CSVData.objects.get(id=csv_id)
@@ -46,8 +37,11 @@ def generate_csv_file(rows, schema_id, csv_id):
         data_columns[key] = data
 
     df = pd.DataFrame(data_columns, columns=list(data_columns))
-    df.to_csv(csv_obj.file, index=False, sep=sep[schema.str_sep], quotechar=quotechar[schema.str_char])
-    print(df)
-
+    df.to_csv(
+        csv_obj.file,
+        index=False,
+        sep=Constants.StringSeparators.__getitem__(schema.str_sep),
+        quotechar=Constants.StringChar.__getitem__(schema.str_char)
+    )
     csv_obj.status = Constants.CSVSchemaStatus.READY
     csv_obj.save()

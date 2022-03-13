@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -88,13 +87,13 @@ class CSVData(models.Model):
         choices=Constants.CSVSchemaStatus,
         default=Constants.CSVSchemaStatus.PROCESSING,
     )
-    file = models.FilePathField(path=settings.MEDIA_ROOT)
+    file = models.FilePathField()
 
     schema = models.ForeignKey(to=CSVSchema, on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.created_at
+        return str(self.id)
 
     class Meta:
         verbose_name = "CSV Data"

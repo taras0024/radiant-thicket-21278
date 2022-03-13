@@ -124,7 +124,7 @@ def delete_schema_columns(request, pk):
     column.delete()
     return HttpResponse('')
 
-
+@login_required
 def generate_csv(request, pk):
     schema = CSVSchema.objects.get(pk=pk)
     form = NumRowsForm(request.POST or None)
@@ -155,4 +155,4 @@ def upload_file(request, pk):
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
-    raise Http404
+    return HttpResponse('Document not found')

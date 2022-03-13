@@ -84,3 +84,10 @@ body {
 .body-schema-list {
     margin: 30px 30px 30px 30px;
 }
+
+.generate-csv-form {
+    width: 30%;
+    padding: 20px;
+    display: inline-flex;
+    align-items: baseline;
+}
