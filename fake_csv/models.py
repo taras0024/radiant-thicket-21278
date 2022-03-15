@@ -87,13 +87,17 @@ class CSVData(models.Model):
         choices=Constants.CSVSchemaStatus,
         default=Constants.CSVSchemaStatus.PROCESSING,
     )
-    file = models.FilePathField()
+    file_name = models.CharField(
+        max_length=255,
+        blank=False,
+        null=False
+    )
 
     schema = models.ForeignKey(to=CSVSchema, on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.file_name)
 
     class Meta:
         verbose_name = "CSV Data"

@@ -1,9 +1,10 @@
 import datetime
 import os
+from pathlib import Path
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -13,6 +14,8 @@ from fake_csv.forms import CSVSchemaForm, NumRowsForm, SchemaColumnsForm
 from fake_csv.models import CSVData, CSVSchema, SchemaColumns
 from fake_csv.tasks import generate_csv_file
 from planeks import settings
+
+MEDIA_PATH = Path(settings.MEDIA_ROOT)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -124,6 +127,7 @@ def delete_schema_columns(request, pk):
     column.delete()
     return HttpResponse('')
 
+
 @login_required
 def generate_csv(request, pk):
     schema = CSVSchema.objects.get(pk=pk)
@@ -135,8 +139,7 @@ def generate_csv(request, pk):
             rows = form.cleaned_data['num_rows']
             schema = CSVSchema.objects.get(pk=schema.id)
             file_name = f"{schema.name.replace(' ', '_')}_{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.csv"
-            path = (os.path.join(settings.MEDIA_ROOT, file_name))
-            csv_data = CSVData.objects.create(file=path, schema_id=schema.id, user_id=request.user.id)
+            csv_data = CSVData.objects.create(file_name=file_name, schema_id=schema.id, user_id=request.user.id)
             generate_csv_file.delay(rows, schema.id, csv_data.id)
             return redirect('schema-data-sets', pk=schema.id)
     context = {
@@ -148,11 +151,12 @@ def generate_csv(request, pk):
 
 @login_required
 def upload_file(request, pk):
-    path = CSVData.objects.get(pk=pk).file
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
+    file_name = CSVData.objects.get(pk=pk).file_name
+    path = (os.path.join(MEDIA_PATH, file_name))
+    try:
+        with open(path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(path)
             return response
-    return HttpResponse('Document not found')
+    except Exception as e:
+        return HttpResponse('Document not found')

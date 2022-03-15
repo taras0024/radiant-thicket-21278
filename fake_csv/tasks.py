@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -7,7 +8,7 @@ from faker import Faker
 from fake_csv.models import CSVData, CSVSchema, Constants, SchemaColumns
 from planeks import settings
 
-path = Path(settings.MEDIA_ROOT)
+MEDIA_PATH = Path(settings.MEDIA_ROOT)
 
 
 @shared_task
@@ -37,11 +38,13 @@ def generate_csv_file(rows, schema_id, csv_id):
         data_columns[key] = data
 
     df = pd.DataFrame(data_columns, columns=list(data_columns))
+    path = (os.path.join(MEDIA_PATH, csv_obj.file_name))
     df.to_csv(
-        csv_obj.file,
+        path,
         index=False,
         sep=Constants.StringSeparators.__getitem__(schema.str_sep),
         quotechar=Constants.StringChar.__getitem__(schema.str_char)
     )
     csv_obj.status = Constants.CSVSchemaStatus.READY
     csv_obj.save()
+    return path
