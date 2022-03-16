@@ -2,6 +2,7 @@ import datetime
 import os
 from pathlib import Path
 
+import pyrebase
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -16,6 +17,8 @@ from fake_csv.tasks import generate_csv_file
 from planeks import settings
 
 MEDIA_PATH = Path(settings.MEDIA_ROOT)
+FB = pyrebase.initialize_app(settings.FIREBASE_CONFIG)
+FB_STORAGE = FB.storage()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -152,11 +155,8 @@ def generate_csv(request, pk):
 @login_required
 def upload_file(request, pk):
     file_name = CSVData.objects.get(pk=pk).file_name
-    path = (os.path.join(MEDIA_PATH, file_name))
+    blob = settings.FB_BUCKET.blob(file_name)
     try:
-        with open(path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(path)
-            return response
-    except Exception as e:
+        return redirect(blob.generate_signed_url(datetime.timedelta(seconds=300), method='GET'))
+    except:
         return HttpResponse('Document not found')

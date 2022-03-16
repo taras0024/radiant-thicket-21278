@@ -16,7 +16,9 @@ from urllib.parse import urlparse
 
 import dj_database_url
 import django_heroku
+import firebase_admin
 from django.contrib.messages import constants as messages
+from firebase_admin import storage
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -179,3 +181,22 @@ DATABASES['default'].update(db_from_env)
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# # Firebase conf
+
+FIREBASE_CONFIG = {
+    "apiKey": "AIzaSyBR-CV_3_69ke-ByI52wlcukcDD4Ws5X5c",
+    "authDomain": "radiant-thicket-21278.firebaseapp.com",
+    "projectId": "radiant-thicket-21278",
+    "storageBucket": "radiant-thicket-21278.appspot.com",
+    "messagingSenderId": "610128722020",
+    "appId": "1:610128722020:web:98a217f29e1034c5444771",
+    "measurementId": "G-2ZGJTQC434",
+    "databaseURL": "https://console.firebase.google.com/u/0/project/radiant-thicket-21278/database"
+}
+
+# Firebase credentials
+FB_CRED = firebase_admin.credentials.Certificate(
+    'planeks/radiant-thicket-21278-firebase-adminsdk-hvi11-f69fc32e0c.json')
+FB_APP = firebase_admin.initialize_app(FB_CRED, FIREBASE_CONFIG)
+FB_BUCKET = storage.bucket(app=FB_APP)
